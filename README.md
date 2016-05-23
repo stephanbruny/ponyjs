@@ -14,6 +14,9 @@ Some features are based on concepts from Qt/QML.
 
 ## Modules
 
+Pony.JS consists of little seperate ponies - small libraries with a specific functionality.
+To keep things small and simple, you only include those you need.
+
 ### Core
 
 The DOM-Abstraction Layer serving the Pony-Prototype.
