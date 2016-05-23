@@ -111,6 +111,33 @@
 			assert(document.querySelector('#test-list li.foo:nth-child(2)').innerHTML === 'bar');
 			assert(document.querySelector('#test-list li.foo:nth-child(3)').innerHTML === '42');
 		}, testList);
+
+		test('Signals', function() {
+			var btn = Pony.el('button', { id: 'foo-btn', style: 'display: none' });
+			var sig = new Pony.Signal(btn, 'onclick');
+			sig.connect(function() {
+				btn.appendNew('span', {class: 'success'}, 'was clicked');
+			});
+			btn.el.click();
+			assert(document.querySelector('#foo-btn'));
+			assert(document.querySelector('#foo-btn span.success'));
+			btn.el.click();
+				assert(document.querySelectorAll('#foo-btn span.success').length === 2);
+		}, testList);
+
+		test('Signals (once)', function() {
+			var btn = Pony.el('button', { id: 'foo-btn2', style: 'display: none' });
+			var sig = new Pony.Signal(btn, 'onclick');
+			sig.connect(function() {
+				btn.appendNew('span', {class: 'success'}, 'was clicked');
+				return false;
+			});
+			btn.el.click();
+			btn.el.click();
+			btn.el.click();
+			assert(document.querySelector('#foo-btn'));
+			assert(document.querySelectorAll('#foo-btn2 span.success').length === 1);
+		}, testList);
 	};
 
 
