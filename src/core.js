@@ -109,7 +109,6 @@
 		create: create,
 		el: PonyEl,
 		Pony: Pony,
-		Signal: Signal,
 		wrap: function(el, parent) {
 			return new Pony(el, parent);
 		}

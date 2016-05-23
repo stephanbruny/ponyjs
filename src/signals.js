@@ -1,3 +1,4 @@
+(function(root) {
 	function Signal(pony, domEvent) {
 		this.connections = [];
 		if (domEvent) {
@@ -14,3 +15,11 @@
 			this.connections[i].apply(this, arguments);
 		}
 	};
+
+	if (root.Pony) {
+		root.Pony.Signal = Signal;
+	} else {
+		root.Signal = Signal;
+	}
+
+})(this);
