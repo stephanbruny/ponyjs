@@ -28,7 +28,7 @@
 	<script type="text/javascript">
 	function assert(expr, message) {
 		if (!expr) {
-			throw new Error(message || "Assertion failed " + expr.toString());
+			throw new Error(message || "Assertion failed");
 		}
 	}
 
@@ -38,7 +38,7 @@
 			fn();
 		} catch (ex) {
 			li.appendNew('span', { class: 'fail' }, 'failed');
-			li.appendNew('span', { class: 'fail-text' }, ex.message);
+			li.appendNew('span', { class: 'fail-text' }, ' [' + ex.stack + ']');
 			return;
 		}
 		li.appendNew('span', { class: 'success' }, 'success');
@@ -70,6 +70,33 @@
 			assert(!el.text());
 			el.text(testText);
 			assert(testText === el.text());
+		}, testList);
+
+		test('Attribute method', function() {
+			var el = Pony.el('p', { style: 'display: none' });
+			var testText = 'foo ' + new Date().toISOString();
+			assert(!el.attribute('foo'));
+			el.attribute('foo', testText);
+			assert(testText === el.attribute('foo'));
+		}, testList);
+
+		test('Shedrow Table', function() {
+			var tableHead = {
+				foo: { title: 'Foo', delegate: function(item) {
+					assert(item);
+					return Pony.el('span', {class: 'foo-td'}, item.foo);
+				} },
+				bar: { title: 'Bar', head: function(table) {
+					assert(this);
+					assert(table);
+					return Pony.el('span', {class: 'success'}, "Bar");
+				} }
+			};
+			var table = new Pony.Shedrow.Table({id: 'foo-table', style: 'display: none'}, tableHead);
+			table.display([{ foo: 'Hello', bar: 'World' }]);
+			assert(document.querySelector('#foo-table'));
+			assert(document.querySelector('#foo-table thead tr th:nth-child(2) span.success'), 'Error in table head delgate.');
+			assert(document.querySelector('#foo-table tbody tr td:nth-child(1) span.foo-td'), 'Error in table head delgate.');
 		}, testList);
 	};
 
