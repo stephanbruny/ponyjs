@@ -98,6 +98,19 @@
 			assert(document.querySelector('#foo-table thead tr th:nth-child(2) span.success'), 'Error in table head delgate.');
 			assert(document.querySelector('#foo-table tbody tr td:nth-child(1) span.foo-td'), 'Error in table head delgate.');
 		}, testList);
+
+		test('Shedrow List', function() {
+			var delegate = function(item) {
+				assert(item);
+				return Pony.el('li', {class: 'foo'}, item);
+			};
+			var list = new Pony.Shedrow.List('ul', {id: 'test-list', style: 'display: none;'}, delegate);
+			list.display(['foo', 'bar', '42']);
+			assert(document.querySelector('#test-list'));
+			assert(document.querySelector('#test-list li.foo:first-child').innerHTML === 'foo');
+			assert(document.querySelector('#test-list li.foo:nth-child(2)').innerHTML === 'bar');
+			assert(document.querySelector('#test-list li.foo:nth-child(3)').innerHTML === '42');
+		}, testList);
 	};
 
 

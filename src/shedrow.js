@@ -26,6 +26,20 @@
 		}
 	}
 
+	function PonyList(type, attributes, delegate) {
+		var base = new root.Pony.el('type', attributes);
+		this.base = base;
+		this.delegate = delegate || function(item) {
+			return base.appendNew('li', {}, item);
+		};
+	}
+
+	PonyList.prototype.display = function(data, options) {
+		for (var i = 0; i < data.length; i++) {
+			this.base.append(this.delegate(data[i], options));
+		}
+	};
+
 	PonyTable.prototype.display = function(data, options) {
 		if (!Array.isArray(data)) { throw new Error("Table data must be an array") };
 		this.tbody.clear();
@@ -43,6 +57,7 @@
 	};
 
 	root.Pony.Shedrow = {
-		Table: PonyTable
+		Table: PonyTable,
+		List: PonyList
 	};
 })(this);
