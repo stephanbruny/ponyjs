@@ -10,6 +10,7 @@ Also, I didn't want to rely too much on "ECMAScript 6th Edition"-Features. They'
 Pony.JS has mobile and embedded applications in mind.
 Low memory footprint, modularity and high speed are a must!
 
+Some features are based on concepts from Qt/QML.
 
 ## Modules
 
