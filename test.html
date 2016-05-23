@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pony.JS</title>
+
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		.fail {
+			color: #AA0000;
+		}
+
+		.success {
+			color: #00AA00;
+		}
+
+		.fail-text {
+			font-style: italic;
+		}
+	</style>
+
+	<script src="src/core.js"></script>
+	<script src="src/shedrow.js"></script>
+	<script src="src/mixin.js"></script>
+	<script src="src/signals.js"></script>
+	<script type="text/javascript">
+	function assert(expr, message) {
+		if (!expr) {
+			throw new Error(message || "Assertion failed " + expr.toString());
+		}
+	}
+
+	function test(name, fn, parent) {
+		var li = parent.appendNew('li', {}, name + ' = ');
+		try {
+			fn();
+		} catch (ex) {
+			li.appendNew('span', { class: 'fail' }, 'failed');
+			li.appendNew('span', { class: 'fail-text' }, ex.message);
+			return;
+		}
+		li.appendNew('span', { class: 'success' }, 'success');
+	}
+
+	window.onload = function() {
+		var pony = Pony.el('div', { id: 'pony', class: 'test' });
+		var testList = pony.appendNew('ul');
+		test('Core returns pony elements', function() {
+			assert(pony);
+			assert(pony.isPony());
+			assert(pony.el);
+			assert(pony.parent === null);
+		}, testList);
+
+		test('Set parent', function() {
+			var subject = Pony.el('div', { class: 'foo' });
+			var parent = Pony.el('div', { class: 'parent' });
+			assert(subject.parent === null);
+			assert(parent.parent === null);
+			subject.setParent(parent);
+			assert(subject.parent);
+			assert(subject.parent === parent);
+		}, testList);
+
+		test('Text method', function() {
+			var el = Pony.el('p', { style: 'display: none' });
+			var testText = 'foo ' + new Date().toISOString();
+			assert(!el.text());
+			el.text(testText);
+			assert(testText === el.text());
+		}, testList);
+	};
+
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>
