@@ -25,6 +25,7 @@
 	<script src="src/shedrow.js"></script>
 	<script src="src/mixin.js"></script>
 	<script src="src/signals.js"></script>
+	<script src="src/include.js"></script>
 	<script type="text/javascript">
 	function assert(expr, message) {
 		if (!expr) {
@@ -155,9 +156,13 @@
 			assert(document.querySelector('#foo-btn3 span.success'));
 			assert(document.querySelector('#foo-div-signal'));
 		}, testList);
+
+		test('Include', function() {
+			Pony.include('src/canvas.js');
+			assert(Pony.include);
+			assert(document.querySelector('script[src="src/canvas.js"]'));
+		}, testList);
 	};
-
-
 	</script>
 </head>
 <body>
