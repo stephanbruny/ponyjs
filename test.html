@@ -122,7 +122,7 @@
 			assert(document.querySelector('#foo-btn'));
 			assert(document.querySelector('#foo-btn span.success'));
 			btn.el.click();
-				assert(document.querySelectorAll('#foo-btn span.success').length === 2);
+			assert(document.querySelectorAll('#foo-btn span.success').length === 2);
 		}, testList);
 
 		test('Signals (once)', function() {
@@ -137,6 +137,23 @@
 			btn.el.click();
 			assert(document.querySelector('#foo-btn'));
 			assert(document.querySelectorAll('#foo-btn2 span.success').length === 1);
+		}, testList);
+
+		test('Signals (Pony.prototype)', function() {
+			var btn = Pony.el('button', { id: 'foo-btn3', style: 'display: none' });
+			var sig = btn.signal('onclick');
+			var sig2 = btn.signal();
+			sig.connect(function() {
+				btn.appendNew('span', {class: 'success'}, 'was clicked');
+				sig2.emit();
+			});
+			sig2.connect(function() {
+				Pony.el('div', { id: 'foo-div-signal' });
+			});
+			btn.el.click();
+			assert(document.querySelector('#foo-btn3'));
+			assert(document.querySelector('#foo-btn3 span.success'));
+			assert(document.querySelector('#foo-div-signal'));
 		}, testList);
 	};
 

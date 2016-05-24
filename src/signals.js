@@ -12,8 +12,15 @@
 
 	Signal.prototype.emit = function() {
 		for (var i = 0; i < this.connections.length; i++) {
-			this.connections[i].apply(this, arguments);
+			var result = this.connections[i].apply(this, arguments);
+			if (result === false) {
+				this.connections.splice(i, 1);
+			}
 		}
+	};
+
+	root.Pony.Pony.prototype.signal = function(domEvent) {
+		return new Signal(this, domEvent);
 	};
 
 	if (root.Pony) {
