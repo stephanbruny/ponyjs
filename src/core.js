@@ -3,7 +3,7 @@
 		throw new Error("No HTML document found");
 	}
 	function create(tag, attributes, inner) {
-    let result = document.createElement(tag);
+    var result = document.createElement(tag);
     if (attributes) {
       for (var key in attributes) {
         result.setAttribute(key, attributes[key]);
