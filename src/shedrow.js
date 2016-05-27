@@ -13,12 +13,12 @@
 		return th;
 	}
 
-	function PonyTable(attributes, head, data) {
+	function PonyTable(attributes, head, parent) {
 		this.head = head;
-		this.base = new root.Pony.el('table', attributes);
+		this.base = new root.Pony.el('table', attributes, null, parent);
 		this.thead = this.base.appendNew('thead');
 		this.tbody = this.base.appendNew('tbody');
-		this.data = data || [];
+		this.data = [];
 		var headRow = this.thead.appendNew('tr');
 		for (var key in head) {
 			var th = _createTableHeader(head[key], this);
@@ -55,6 +55,31 @@
 			}
 		}
 	};
+	
+	Pony.Pony.prototype.serialize = function() {
+		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select'));
+		var result = {};
+		for (var i = 0; i < elements.length; i++) {
+			var name = elements[i].getAttribute('name');
+			var val = elements[i].value;
+			if (elements[i].getAttribute('type') === 'checkbox') {
+				val = !!elements[i].checked;
+			}
+			if (elements[i].getAttribute('type') === 'number') {
+				val = parseFloat(elements[i].value);
+			}
+			
+			if (result[name]) {
+				if (!Array.isArray(result[name])) {
+					result[name] = [result[name]];
+				}
+				result[name].push(val);
+				continue;
+			}
+			result[name] = val;
+		}
+		return result;
+	}
 
 	root.Pony.Shedrow = {
 		Table: PonyTable,

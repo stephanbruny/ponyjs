@@ -17,6 +17,7 @@
 				this.connections.splice(i, 1);
 			}
 		}
+		return false;
 	};
 
 	root.Pony.Pony.prototype.signal = function(domEvent) {

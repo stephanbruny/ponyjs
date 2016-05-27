@@ -104,6 +104,42 @@
 			this.el.removeChild(this.el.firstChild);
 		}
 	};
+	
+	Pony.prototype.disable = function(disabled) {
+		this.el.disabled = disabled;
+	}
+	
+	Pony.prototype.getElementClasses = function() {
+    var classes = this.el.getAttribute('class');
+    if (classes) {
+      return classes.split(' ');
+    }
+    return [];
+  }
+	
+	Pony.prototype.setClass = function(cssClass) {
+    var classList = this.getElementClasses();
+    if (classList.indexOf(cssClass) === -1) {
+      classList.push(cssClass);
+      return this.el.setAttribute('class', classList.join(' '));
+    }
+  }
+
+  Pony.prototype.removeClass = function(cssClass) {
+    var classList = this.getElementClasses(this.el);
+    var index = classList.indexOf(cssClass);
+    if (index !== -1) {
+      classList.splice(index, 1);
+      return this.el.setAttribute('class', classList.join(' '));
+    }
+  }
+	
+	Pony.prototype.value = function(val) {
+		if (undefined !== val) {
+			return this.el.value = val;
+		}
+		return this.el.value;
+	}
 
 	root.Pony = {
 		create: create,
