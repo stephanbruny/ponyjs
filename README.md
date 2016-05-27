@@ -12,6 +12,10 @@ Low memory footprint, modularity and high speed are a must!
 
 Some features are based on concepts from Qt/QML.
 
+## Stage of Development
+
+**NOT EVEN ALPHA**
+
 ## Modules
 
 Pony.JS consists of little seperate ponies - small libraries with a specific functionality.
