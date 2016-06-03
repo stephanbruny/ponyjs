@@ -65,9 +65,10 @@
   }
   
   Ptl.prototype.generateEl = function(obj) {
+    var pony = null;
     if (!obj.pony) {
       var tag = obj.tag || 'div';
-      this.pony = new root.Pony.Pony(tag, obj.attributes);
+      pony = root.Pony.el(tag, obj.attributes, obj.text);
     } else {
       if (!root.Pony.Shedrow) {
         throw new Error("Cannot use advanced pony elements without Shedrow-Library loaded");
@@ -75,7 +76,7 @@
       if (!root.Pony.Shedrow[obj.pony]) {
         throw new Error("Unknown Pony " + obj.pony);
       }
-      this.pony = new root.Pony.Shedrow[obj.pony](obj.attributes, this.generateHead(pony, obj.head));
+      pony = new root.Pony.Shedrow[obj.pony](obj.attributes, this.generateHead(pony, obj.head));
     }
     if (obj.signals) {
       if (!root.Pony.Signal) {
@@ -87,10 +88,12 @@
     }
     if (obj.children) {
       for (var key in obj.children) {
-        this[key] = this.generateEl(obj.children[key]);
+        var child = this.generateEl(obj.children[key]);
+        this[key] = child;
+        pony.append(child);
       }
     }
-    return this;
+    return pony;
   };
   
   Ptl.prototype.failed = function(callback) {
@@ -111,7 +114,8 @@
   }
   
   Ptl.prototype.render = function() {
-    return this.generateEl(this.template);
+    this.pony = this.generateEl(this.template);
+    return this;
   }
 
   root.Pony.Ptl = Ptl;

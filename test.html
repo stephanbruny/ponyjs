@@ -211,7 +211,34 @@
 			
 			ptl.render();
 			ptl.pony.display(testData);
+			assert(ptl.signals.onDataChange);
 		}, testList);
+		
+		test('PTL (Children)', function() {
+			var template = {
+				tag: "div",
+				attributes: {class: 'ptl-parent', style: 'display: none'},
+				children: {
+					"child_1": {
+						tag: "p",
+						attributes: {class: 'ptl-child'},
+						text: "child-test"
+					},
+					"child_2": {
+						tag: "p",
+						attributes: {class: 'ptl-child'},
+						text: "child-test-2"
+					}
+				}
+			}
+			var ptl = new Pony.Ptl(template);
+			ptl.render();
+			assert(ptl.child_1);
+			assert(ptl.child_2);
+			assert(ptl.child_1.text() === 'child-test');
+			assert(ptl.child_2.text() === 'child-test-2');
+		}, testList);
+		
 		
 		
 
