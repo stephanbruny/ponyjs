@@ -18,6 +18,10 @@
 		}
 		return this.connections.splice(idx, 1);
 	}
+	
+	Signal.prototype.disconnectAll = function() {
+		this.connections = [];
+	}
 
 	Signal.prototype.emit = function() {
 		for (var i = 0; i < this.connections.length; i++) {

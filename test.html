@@ -26,6 +26,7 @@
 	<script src="src/mixin.js"></script>
 	<script src="src/signals.js"></script>
 	<script src="src/include.js"></script>
+	<script src="src/ptl.js"></script>
 	<script type="text/javascript">
 	function assert(expr, message) {
 		if (!expr) {
@@ -39,10 +40,22 @@
 			fn();
 		} catch (ex) {
 			li.appendNew('span', { class: 'fail' }, 'failed');
-			li.appendNew('span', { class: 'fail-text' }, ' [' + ex.stack + ']');
+			li.appendNew('span', { class: 'fail-text' }, ' ' + ex.message + ' [' + ex.stack + ']');
 			return;
 		}
 		li.appendNew('span', { class: 'success' }, 'success');
+	}
+	
+	function testAsync(name, fn, parent) {
+		var li = parent.appendNew('li', {}, name + ' = ');
+		fn(function(err) {
+			if (err) {
+				li.appendNew('span', { class: 'fail' }, 'failed');
+				li.appendNew('span', { class: 'fail-text' }, ' [' + err.stack + ']');
+			} else {
+				li.appendNew('span', { class: 'success' }, 'success');
+			}
+		})
 	}
 
 	window.onload = function() {
@@ -162,6 +175,46 @@
 			assert(Pony.include);
 			assert(document.querySelector('script[src="src/canvas.js"]'));
 		}, testList);
+		
+		test('Ptl (sync)', function() {
+			assert(Pony.Ptl);
+			var template = {
+				"pony": "Table",
+				"attributes": {
+					"style": "display: none"
+				},
+				"signals": {"onDataChange": null},
+				"head": {
+					"id": { "title": "ID" },
+					"name": { "title": "Name", "delegate": "thName", "head": "nameHeadDelegate" },
+					"options": { "title": "Options", "delegate": "thOptions" }
+				}
+			};
+			var testData = [
+				{id: '1', name: 'test-1'},
+				{id: '2', name: 'test-2'},
+				{id: '3', name: 'test-3'},
+			];
+			var ptl = new Pony.Ptl(template);
+			
+			ptl.delegates.thName = function(item) {
+				return Pony.el('span', {class: 'dynamic-delegate'}, item.name);
+			};
+			
+			ptl.delegates.thOptions = function(item) {
+				return Pony.el('button', {class: 'button-dynamic-delegate'}, item.name);
+			};
+			
+			ptl.delegates.nameHeadDelegate = function(table) {
+				return Pony.el('strong', {}, 'Name');
+			}
+			
+			ptl.render();
+			ptl.pony.display(testData);
+		}, testList);
+		
+		
+
 	};
 	</script>
 </head>
