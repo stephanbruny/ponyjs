@@ -7,8 +7,17 @@
 	}
 
 	Signal.prototype.connect = function(cb) {
-		this.connections.push(cb);
+		if (this.connections.indexOf(cb) === -1)
+			this.connections.push(cb);
 	};
+	
+	Signal.prototype.disconnect = function(cb) {
+		var idx = this.connections.indexOf(cb);
+		if (idx === -1) {
+			throw new Error("Cannot disconnect unconnected signal handler");
+		}
+		return this.connections.splice(idx, 1);
+	}
 
 	Signal.prototype.emit = function() {
 		for (var i = 0; i < this.connections.length; i++) {
