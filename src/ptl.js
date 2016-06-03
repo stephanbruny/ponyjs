@@ -4,7 +4,7 @@
     throw new Error("PTL cannot be used without Pony.JS core");
   }
 	
-  function Ptl(pathOrObject) {
+  function Ptl(pathOrObject, parent) {
     if (typeof(pathOrObject) === 'object') {
       this.template = pathOrObject;
     }
@@ -14,9 +14,10 @@
     this.delegateHandlers = {};
     this.signals = {};
     this.pony = null;
+    this.parent = parent;
   }
   
-  Ptl.prototype.loadJSON = function(callback) {   
+  Ptl.prototype.loadJson = function(callback) {   
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open('GET', this.templatePath, true);
@@ -64,11 +65,11 @@
     return result;
   }
   
-  Ptl.prototype.generateEl = function(obj) {
+  Ptl.prototype.generateEl = function(obj, parent) {
     var pony = null;
     if (!obj.pony) {
       var tag = obj.tag || 'div';
-      pony = root.Pony.el(tag, obj.attributes, obj.text);
+      pony = root.Pony.el(tag, obj.attributes, obj.text, parent);
     } else {
       if (!root.Pony.Shedrow) {
         throw new Error("Cannot use advanced pony elements without Shedrow-Library loaded");
@@ -88,9 +89,8 @@
     }
     if (obj.children) {
       for (var key in obj.children) {
-        var child = this.generateEl(obj.children[key]);
+        var child = this.generateEl(obj.children[key], pony);
         this[key] = child;
-        pony.append(child);
       }
     }
     return pony;
@@ -103,18 +103,18 @@
   
   Ptl.prototype.load = function(callback) {
     this.loadJson(function(data) {
-      console.log(data)
       try {
-        return callback(this.generateEl(data));
+        this.pony = this.generateEl(data, this.parent);
+        return callback(this);
       } catch (ex) {
         this.onError(ex);
       } 
-    });
+    }.bind(this));
     return this;
   }
   
-  Ptl.prototype.render = function() {
-    this.pony = this.generateEl(this.template);
+  Ptl.prototype.render = function(parent) {
+    this.pony = this.generateEl(this.template, parent || this.parent);
     return this;
   }
 
