@@ -77,7 +77,7 @@
       if (!root.Pony.Shedrow[obj.pony]) {
         throw new Error("Unknown Pony " + obj.pony);
       }
-      pony = new root.Pony.Shedrow[obj.pony](obj.attributes, this.generateHead(pony, obj.head));
+      pony = new root.Pony.Shedrow[obj.pony](obj.attributes, this.generateHead(pony, obj.head), parent);
     }
     if (obj.signals) {
       if (!root.Pony.Signal) {
