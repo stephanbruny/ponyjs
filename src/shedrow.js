@@ -57,7 +57,7 @@
 	};
 	
 	Pony.Pony.prototype.serialize = function() {
-		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea'));
+		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea,option'));
 		var result = {};
 		for (var i = 0; i < elements.length; i++) {
 			var name = elements[i].getAttribute('name');
