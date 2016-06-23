@@ -57,7 +57,7 @@
 	};
 	
 	Pony.Pony.prototype.serialize = function() {
-		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select'));
+		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea'));
 		var result = {};
 		for (var i = 0; i < elements.length; i++) {
 			var name = elements[i].getAttribute('name');
@@ -79,6 +79,16 @@
 			result[name] = val;
 		}
 		return result;
+	}
+
+	Pony.Pony.prototype.fill = function(data) {
+		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea'));
+		for (var i = 0; i < elements.length; i++) {
+			var name = elements[i].getAttribute('name');
+			if (data[name]) {
+				elements[i].value = data[name];
+			}
+		}
 	}
 
 	root.Pony.Shedrow = {
