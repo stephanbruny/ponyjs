@@ -62,6 +62,7 @@
 		for (var i = 0; i < elements.length; i++) {
 			var name = elements[i].getAttribute('name');
 			var val = elements[i].value;
+			if (!val) continue;
 			if (elements[i].getAttribute('type') === 'checkbox') {
 				val = !!elements[i].checked;
 			}
