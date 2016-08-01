@@ -27,7 +27,7 @@
 	}
 
 	function PonyList(type, attributes, delegate) {
-		var base = new root.Pony.el('type', attributes);
+		var base = new root.Pony.el(type, attributes);
 		this.base = base;
 		this.delegate = delegate || function(item) {
 			return base.appendNew('li', {}, item);
