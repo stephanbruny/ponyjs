@@ -99,7 +99,7 @@
 	Pony.Pony.prototype.disableAll = function(disabled) {
 		var elements = this.getInputElements();
 		for (var i = 0; i < elements.length; i++) {
-			if (!!disabled) elements[i].removeAttribute('disabled');
+			if (!disabled) elements[i].removeAttribute('disabled');
 			else elements[i].setAttribute('disabled', 'disabled');
 		}
 	}
