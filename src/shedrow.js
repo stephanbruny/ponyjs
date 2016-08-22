@@ -82,13 +82,25 @@
 		return result;
 	}
 
+	Pony.Pony.prototype.getInputElements = function() {
+		return Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea'));
+	}
+
 	Pony.Pony.prototype.fill = function(data) {
-		var elements = Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea'));
+		var elements = this.getInputElements();
 		for (var i = 0; i < elements.length; i++) {
 			var name = elements[i].getAttribute('name');
 			if (data[name]) {
 				elements[i].value = data[name];
 			}
+		}
+	}
+
+	Pony.Pony.prototype.disableAll = function(disabled) {
+		var elements = this.getInputElements();
+		for (var i = 0; i < elements.length; i++) {
+			if (!!disabled) elements[i].removeAttribute('disabled');
+			else elements[i].setAttribute('disabled', 'disabled');
 		}
 	}
 
