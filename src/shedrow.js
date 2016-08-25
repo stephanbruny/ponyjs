@@ -86,12 +86,28 @@
 		return Array.prototype.slice.call(this.el.querySelectorAll('input,select,textarea'));
 	}
 
+	function fillInput(el, value) {
+		switch (el.tagName.toLowerCase()) {
+			case 'input': {
+				var type = el.getAttribute('type');
+				if (type === 'checkbox') return (Boolean(value)) ? el.setAttribute('checked', 'checked') : el.removeAttribute('checked');
+				break;
+			};
+			case 'textarea': {
+				el.innerHTML = value;
+				break;
+			};
+			default: break;
+		}
+		return el.value = value;
+	}
+
 	Pony.Pony.prototype.fill = function(data) {
 		var elements = this.getInputElements();
 		for (var i = 0; i < elements.length; i++) {
 			var name = elements[i].getAttribute('name');
 			if (data[name]) {
-				elements[i].value = data[name];
+				fillInput(elements[i], data[name]);
 			}
 		}
 	}
