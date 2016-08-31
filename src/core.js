@@ -82,9 +82,10 @@
 	};
 
 	Pony.prototype.attribute = function(key, value) {
-		if (!value) {
+		if (undefined === value) {
 			return this.el.getAttribute(key);
 		}
+		if (!value) return this.el.removeAttribute(key);
 		return this.el.setAttribute(key, value);
 	};
 
