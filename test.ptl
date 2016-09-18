@@ -1,0 +1,14 @@
+$var "Variable panel title"
+@root {
+  class "panel panel-default",
+  @header {
+    class "panel-heading"
+    @title:h2 {
+      class "panel-title",
+      text $var
+    }
+  },
+  @body {
+    class "panel-body"
+  }
+}

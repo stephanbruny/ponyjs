@@ -1,0 +1,105 @@
+Entity = id:ObjectId t:Type? attributes:Object {
+  var children = null;
+  if (attributes.children) {
+    children = attributes.children;
+    delete attributes.children;
+  }
+  var result = {
+    id: id,
+    type: t,
+    attributes: attributes
+  };
+  if (children) result.children = children;
+  return result;
+}
+
+Type = _ "(" _ name:Identifier _ ")" { return name; }
+ 
+Object = _ "{" _ res:(Properties) _ "}" { return res; }
+
+Properties = props:CSProperties* {
+  var result = {
+  };
+  if (props.length) {
+    for (var i = 0; i < props.length; i++) {
+      if (props[i].attributes) {
+        if (!result.children) result.children = {};
+        result.children[props[i].id] = props[i];
+        continue;
+      }
+      result[props[i].id] = props[i].val;
+    }
+    return result;
+  }
+  return result;
+}
+
+CSProperties = p:(Attribute) (_","_)? { return p; }
+CSEntities = e:(Entity) (_","_)? { return e; }
+
+Attribute = Property/Entity
+
+ObjectId = "@" name:Identifier { return name; }
+
+Property = id:(Identifier) _ val:(Value/Object) {
+  return {
+    id: id,
+    val: val
+  }
+}
+
+Variable = "$" Identifier 
+
+Value = String / Float / Integer
+
+String = SingleQuoteString / DoubleQuoteString
+DoubleQuoteString = "\"" str:NotQuote* "\"" { return str.join(''); }
+SingleQuoteString = "'" str:NotSingleQuote* "'" { return str.join(''); }
+
+NotQuote
+  = !'"' char: . {return char}
+  
+NotSingleQuote
+  = !"'" char: . {return char}
+
+Identifier = [a-zA-Z][a-zA-Z_\-0-9]* { return text() }
+
+Expression
+  = head:Term tail:(_ ("+" / "-") _ Term)* {
+      var result = head, i;
+
+      for (i = 0; i < tail.length; i++) {
+        if (tail[i][1] === "+") { result += tail[i][3]; }
+        if (tail[i][1] === "-") { result -= tail[i][3]; }
+      }
+
+      return result;
+    }
+
+Term
+  = head:Factor tail:(_ ("*" / "/") _ Factor)* {
+      var result = head, i;
+
+      for (i = 0; i < tail.length; i++) {
+        if (tail[i][1] === "*") { result *= tail[i][3]; }
+        if (tail[i][1] === "/") { result /= tail[i][3]; }
+      }
+
+      return result;
+    }
+
+Factor
+  = "(" _ expr:Expression _ ")" { return expr; }
+  / Integer
+
+Float = [0-9]+ "." [0-9]+ { return parseFloat(text()) }
+
+Integer "integer"
+  = [0-9]+ { return parseInt(text(), 10); }
+  
+space = [ \t\n\r]
+
+EOF = ! .
+
+_ "whitespace"
+  = [ \t\n\r]*
