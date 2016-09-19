@@ -4,7 +4,8 @@
     class "panel-heading",
     @title(h2) {
       class "panel-title",
-      text $var
+      text $var, /* Using a variable from context */
+      id "the-panel-title"
     }
   },
   @body {
