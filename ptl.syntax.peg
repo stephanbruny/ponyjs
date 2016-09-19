@@ -1,4 +1,10 @@
-Entity = id:ObjectId t:Type? attributes:Object {
+{
+  var context = {};
+}
+
+Token = Comment* e:Entity Comment* { return e; }
+
+Entity = _ id:ObjectId t:Type? attributes:Object {
   var children = null;
   if (attributes.children) {
     children = attributes.children;
@@ -34,8 +40,8 @@ Properties = props:CSProperties* {
   return result;
 }
 
-CSProperties = p:(Attribute) (_","_)? { return p; }
-CSEntities = e:(Entity) (_","_)? { return e; }
+CSProperties = Comment* p:(Attribute) (_","_)? Comment* { return p; }
+CSEntities = Comment* e:(Entity) (_","_)? Comment* { return e; }
 
 Attribute = Property/Entity
 
@@ -48,9 +54,11 @@ Property = id:(Identifier) _ val:(Value/Object) {
   }
 }
 
-Variable = "$" Identifier 
+Comment = _ "/*" (!"*/" .)* "*/" _ { return null }
 
-Value = String / Float / Integer
+Variable = "$" name:Identifier { return context[name] || { reference: name }; }
+
+Value = String / Float / Integer / Variable
 
 String = SingleQuoteString / DoubleQuoteString
 DoubleQuoteString = "\"" str:NotQuote* "\"" { return str.join(''); }
@@ -63,34 +71,6 @@ NotSingleQuote
   = !"'" char: . {return char}
 
 Identifier = [a-zA-Z][a-zA-Z_\-0-9]* { return text() }
-
-Expression
-  = head:Term tail:(_ ("+" / "-") _ Term)* {
-      var result = head, i;
-
-      for (i = 0; i < tail.length; i++) {
-        if (tail[i][1] === "+") { result += tail[i][3]; }
-        if (tail[i][1] === "-") { result -= tail[i][3]; }
-      }
-
-      return result;
-    }
-
-Term
-  = head:Factor tail:(_ ("*" / "/") _ Factor)* {
-      var result = head, i;
-
-      for (i = 0; i < tail.length; i++) {
-        if (tail[i][1] === "*") { result *= tail[i][3]; }
-        if (tail[i][1] === "/") { result /= tail[i][3]; }
-      }
-
-      return result;
-    }
-
-Factor
-  = "(" _ expr:Expression _ ")" { return expr; }
-  / Integer
 
 Float = [0-9]+ "." [0-9]+ { return parseFloat(text()) }
 
