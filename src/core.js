@@ -6,6 +6,10 @@
     var result = document.createElement(tag);
     if (attributes) {
       for (var key in attributes) {
+				if (typeof(attributes[key]) === 'object') {
+					result[key] = result[key] || attributes[key];
+					continue;
+				}
         result.setAttribute(key, attributes[key]);
       }
     }

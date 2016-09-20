@@ -258,7 +258,10 @@
 								"type": "h2",
 								"attributes": {
 									"class": "panel-title",
-									"id": "the-panel-title"
+									"id": "the-panel-title",
+									"foo": {
+										"bar": 42
+									}
 								},
 								"text": {
 									"reference": "var"
@@ -304,9 +307,8 @@
 				"var": 'Template Test'
 			});
 			var res = tpl.render();
-			
+			console.log(tpl)			
 			assert(tpl.signals.onClose);
-			console.log(tpl.title.text())
 			assert(tpl.title.text() === 'Template Test');
 
 		}, testList)
