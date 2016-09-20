@@ -2,7 +2,8 @@
     "id": "root",
     "type": null,
     "attributes": {
-        "class": "panel panel-default"
+        "class": "panel panel-default",
+        "style": "display: none"
     },
     "children": {
         "header": {
@@ -15,8 +16,10 @@
                     "type": "h2",
                     "attributes": {
                         "class": "panel-title",
-                        "text": "Test",
                         "id": "the-panel-title"
+                    },
+                    "text": {
+                        "reference": "var"
                     }
                 }
             }
@@ -42,12 +45,12 @@
                         "closeBtn": {
                             "type": "button",
                             "attributes": {
-                                "class": "btn btn-default",
-                                "text": "Close",
-                                "signals": {
-                                    "onClose": "onclick"
-                                }
-                            }
+                                "class": "btn btn-default"
+                            },
+                            "signals": {
+                                "onClose": "onclick"
+                            },
+                            "text": "Close"
                         }
                     }
                 }

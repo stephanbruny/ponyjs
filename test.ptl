@@ -1,5 +1,6 @@
 @root {
   class "panel panel-default",
+  style "display: none",
   @header {
     class "panel-heading",
     @title(h2) {

@@ -14,7 +14,7 @@
     <array>
         <dict>
 			<key>match</key>
-			<string>\b(?:signals|delegate|reference)\b</string>
+			<string>\b(?:signals|delegate|reference|text)\b</string>
 			<key>name</key>
 			<string>keyword.control.ptl</string>
 		</dict>

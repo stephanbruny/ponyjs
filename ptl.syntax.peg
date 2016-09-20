@@ -27,8 +27,17 @@ Properties = props:CSProperties* {
   var result = {
   };
   if (props.length) {
+  	function moveProp(prop, name) {
+      if (prop.attributes[name]) {
+        prop[name] = prop.attributes[name];
+        delete prop.attributes[name];
+      }
+      return prop;
+    }
     for (var i = 0; i < props.length; i++) {
       if (props[i].attributes) {
+      	props[i] = moveProp(props[i], 'signals');
+        props[i] = moveProp(props[i], 'text');
         if (!result.children) result.children = {};
         result.children[props[i].id] = props[i];
         delete props[i].id;

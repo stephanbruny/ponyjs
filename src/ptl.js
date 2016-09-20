@@ -15,7 +15,7 @@
     this.signals = {};
     this.pony = null;
     this.parent = parent;
-    this.context = context;
+    this.context = context || {};
   }
   
   Ptl.prototype.loadJson = function(callback) {   
@@ -77,7 +77,15 @@
           obj.attributes[key] = this.context[ref];
         }
       }
-      pony = root.Pony.el(tag, obj.attributes, obj.text, parent);
+      var elementText = null;
+      if (obj.text) {
+        if (obj.text.reference) {
+          elementText = this.context[obj.text.reference];
+        } else {
+          elementText = obj.text.toString();
+        }
+      }
+      pony = root.Pony.el(tag, obj.attributes, elementText, parent);
     } else {
       if (!root.Pony.Shedrow) {
         throw new Error("Cannot use advanced pony elements without Shedrow-Library loaded");

@@ -1,16 +1,21 @@
 {
-  "name": "ptl-parser",
-  "displayName": "PTL Parser",
-  "description": "Parser for Pony.JS Template Language",
-  "version": "0.0.1",
+  "name": "ptlc",
+  "displayName": "PTL Compiler",
+  "description": "Compiler for Pony.JS Template Language",
+  "version": "0.1.0",
   "publisher": "stephanbruny",
   "engines": {
     "vscode": "^1.5.0"
   },
+  "license": "MIT",
   "categories": [
     "Languages"
   ],
   "dependencies": {
     "optimist": "^0.6.1"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "ptlc": "index.js"
   }
 }
