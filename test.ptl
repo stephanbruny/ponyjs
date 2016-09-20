@@ -10,5 +10,18 @@
   },
   @body {
     class "panel-body"
+  },
+  @footer {
+    class "panel-footer",
+    @footerButtons {
+      class "btn-group",
+      @closeBtn(button) {
+        class "btn btn-default",
+        text "Close",
+        signals {
+          onClose "onclick"
+        }
+      }
+    }
   }
 }

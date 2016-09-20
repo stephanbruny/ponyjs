@@ -1,0 +1,26 @@
+{
+    "name": "ptl",
+    "displayName": "PTL",
+    "description": "Pony.JS Template Language",
+    "version": "0.0.1",
+    "publisher": "stephanbruny",
+    "engines": {
+        "vscode": "^1.5.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "ptl",
+            "aliases": ["Pony.JS Template Language", "ptl"],
+            "extensions": [".ptl"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "ptl",
+            "scopeName": "source.ptl",
+            "path": "./syntaxes/ptl.tmLanguage"
+        }]
+    }
+}

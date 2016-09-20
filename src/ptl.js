@@ -4,7 +4,7 @@
     throw new Error("PTL cannot be used without Pony.JS core");
   }
 	
-  function Ptl(pathOrObject, parent) {
+  function Ptl(pathOrObject, parent, context) {
     if (typeof(pathOrObject) === 'object') {
       this.template = pathOrObject;
     }
@@ -15,6 +15,7 @@
     this.signals = {};
     this.pony = null;
     this.parent = parent;
+    this.context = context;
   }
   
   Ptl.prototype.loadJson = function(callback) {   
@@ -68,7 +69,14 @@
   Ptl.prototype.generateEl = function(obj, parent) {
     var pony = null;
     if (!obj.pony) {
-      var tag = obj.tag || 'div';
+      var tag = obj.tag || obj.type || 'div';
+      obj.attributes = obj.attributes || {};
+      for (var key in obj.attributes) {
+        var ref = obj.attributes[key].reference;
+        if (ref) {
+          obj.attributes[key] = this.context[ref];
+        }
+      }
       pony = root.Pony.el(tag, obj.attributes, obj.text, parent);
     } else {
       if (!root.Pony.Shedrow) {
