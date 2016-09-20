@@ -1,0 +1,57 @@
+{
+    "id": "root",
+    "type": null,
+    "attributes": {
+        "class": "panel panel-default"
+    },
+    "children": {
+        "header": {
+            "type": null,
+            "attributes": {
+                "class": "panel-heading"
+            },
+            "children": {
+                "title": {
+                    "type": "h2",
+                    "attributes": {
+                        "class": "panel-title",
+                        "text": "Test",
+                        "id": "the-panel-title"
+                    }
+                }
+            }
+        },
+        "body": {
+            "type": null,
+            "attributes": {
+                "class": "panel-body"
+            }
+        },
+        "footer": {
+            "type": null,
+            "attributes": {
+                "class": "panel-footer"
+            },
+            "children": {
+                "footerButtons": {
+                    "type": null,
+                    "attributes": {
+                        "class": "btn-group"
+                    },
+                    "children": {
+                        "closeBtn": {
+                            "type": "button",
+                            "attributes": {
+                                "class": "btn btn-default",
+                                "text": "Close",
+                                "signals": {
+                                    "onClose": "onclick"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "ptl-parser",
+  "displayName": "PTL Parser",
+  "description": "Parser for Pony.JS Template Language",
+  "version": "0.0.1",
+  "publisher": "stephanbruny",
+  "engines": {
+    "vscode": "^1.5.0"
+  },
+  "categories": [
+    "Languages"
+  ],
+  "dependencies": {
+    "optimist": "^0.6.1"
+  }
+}
