@@ -27,6 +27,7 @@
 	<script src="src/signals.js"></script>
 	<script src="src/include.js"></script>
 	<script src="src/ptl.js"></script>
+	<script src="build/ptl.min.js"></script>
 	<script type="text/javascript">
 	function assert(expr, message) {
 		if (!expr) {
@@ -310,6 +311,7 @@
 			console.log(tpl)			
 			assert(tpl.signals.onClose);
 			assert(tpl.title.text() === 'Template Test');
+			assert(tpl.title.el.foo)
 
 		}, testList)
 		

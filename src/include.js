@@ -1,6 +1,4 @@
 (function(root) {
-
-
 	var _includes = {};
 	var scriptTags = document.querySelectorAll('script[src]');
 	for (var i = 0; i < scriptTags.length; i++) {
